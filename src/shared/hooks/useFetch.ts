@@ -1,7 +1,10 @@
 const useFetch = (url: string) => {
 
-    const get = () => {
+    const get = async () => {
+        const response = await fetch(url);
+        const json = response.json();
 
+        return json
     }
 
     const post = async (data: object) => {

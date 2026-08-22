@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import type { DummySession } from "../shared/declarations/Dummyjson";
+import { DummyEndpoints, type DummySession } from "../shared/declarations/Dummyjson";
 import useFetch from "../shared/hooks/useFetch";
 
 const Login = () => {
     const loginForm = useRef(null);
     const navigate = useNavigate();
 
-    const { post } = useFetch('https://dummyjson.com/auth/login');
+    const { post } = useFetch(DummyEndpoints.LOGIN);
 
     const ingresar = async (e: React.MouseEvent) => {
         e.preventDefault()
