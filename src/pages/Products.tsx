@@ -1,6 +1,7 @@
 import { useEffect ,useState } from "react";
 import useFetch from "../shared/hooks/useFetch";
 import { DummyEndpoints, type DummyProduct, type DummyProducts } from "../shared/declarations/Dummyjson";
+import Product from "../shared/components/Product";
 
 
 const Products = () => {
@@ -24,7 +25,7 @@ const Products = () => {
         <div>
             {
                 products && products.map(p => (
-                    <div key={p.id}> {p.title} </div>
+                    <Product key={p.id} product={p} />
                 ))
             }
         </div>
