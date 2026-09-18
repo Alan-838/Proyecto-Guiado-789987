@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { DummyEndpoints, type DummySession } from "../shared/declarations/Dummyjson";
-import useFetch from "../shared/hooks/useFetch";
+import { Box, Button, FormLabel, Input, Stack } from "@chakra-ui/react";
+import loginBackground from "@images/login-background.jpg";
+import useFetch from "@hooks/useFetch";
 
 const Login = () => {
     const loginForm = useRef(null);
@@ -28,21 +30,29 @@ const Login = () => {
     }
 
     return (
-        <div>
-            <form ref={loginForm}>
-                <div className="formGroup">
-                    <label htmlFor="username">Usuario</label>
-                    <input id="username" name="username" type="text" />
-                </div>
+        // <div>
+        <Stack flexDirection="row" height="100vh">
+            <Box width="50%" backgroundImage={loginBackground} backgroundPosition="center" backgroundSize="cover"/>
 
-                <div className="formGroup">
-                    <label htmlFor="password">Contraseña</label>
-                    <input id="password" name="password" type="password" />
-                </div>
+            <Box width="50%" display="flex" alignItems="center" justifyContent="center">
+                <Box backgroundColor="#7DB362" padding="2em" borderRadius="20px">
+                    <Box as="form" ref={loginForm} color="#2e272e" display="flex" flexDir="column" gap="1em" >
+                        <div className="formGroup">
+                            <FormLabel htmlFor="username">Usuario</FormLabel>
+                            <Input placeholder='Basic usage' id="username" name="username" type="text" />
+                        </div>
 
-                <button onClick={(e) => ingresar(e)}>Ingresar</button>
-            </form>
-        </div>
+                        <div className="formGroup">
+                            <FormLabel htmlFor="password">Contraseña</FormLabel>
+                            <Input placeholder='Basic usage' id="password" name="password" type="password" />
+                        </div>
+
+                        <Button onClick={(e) => ingresar(e)}>Ingresar</Button>
+                    </Box>
+                </Box>
+            </Box>
+        </Stack>
+        // </div>
     )
 };
 

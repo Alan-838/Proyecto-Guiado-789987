@@ -8,6 +8,11 @@
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
 
+    "paths": {
+      "@hooks/*": ["./src/shared/hooks/*"],
+      "@images/*": ["./src/assets/images/*"]
+    },
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

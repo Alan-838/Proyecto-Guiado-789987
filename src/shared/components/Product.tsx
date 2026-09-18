@@ -1,13 +1,14 @@
+import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
 import { type DummyProduct } from "../declarations/Dummyjson";
 
 const Product = ({ product }: { product: DummyProduct}) => {
     return (
-        <div>
-            <img src={product.thumbnail} alt={product.description} loading="lazy" />
-            <h3>{product.title}</h3>
-            <b>$ {product.price}</b>
-            <hr />
-        </div>
+        <Box width="300px" backgroundColor="#eee" borderRadius="20px" padding="1.5em" display="flex" justifyContent="space-between" flexDirection="column" gap="0.5em" >
+            <Image src={product.thumbnail} alt={product.description} loading="lazy" />
+            <Heading size="md">{product.title}</Heading>
+            <Text>$ {product.price}</Text>
+            <Button>Agregar al carrito</Button>
+        </Box>
     )
 };
 
