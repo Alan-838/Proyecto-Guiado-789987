@@ -2,9 +2,25 @@ import { useEffect, useState } from "react";
 import useFetch from "../shared/hooks/useFetch";
 import { DummyEndpoints, type DummyProduct, type DummyProducts } from "../shared/declarations/Dummyjson";
 import Product from "../shared/components/Product";
-import { Box } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import BaseLayout from "@layouts/BaseLayout";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// import required modules
+import { Navigation, Pagination } from 'swiper/modules';
+
+import sale1 from "@images/sales/sale1.jpg";
+import sale2 from "@images/sales/sale2.jpg";
+import sale3 from "@images/sales/sale3.jpg";
+import sale4 from "@images/sales/sale4.jpg";
+
+const SwiperImages = [sale1, sale2, sale3, sale4];
 
 const Products = () => {
     const [products, setProducts] = useState<Array<DummyProduct>>();
@@ -25,13 +41,28 @@ const Products = () => {
 
     return (
         <BaseLayout>
-            <Box display="flex" flexWrap="wrap" width="80%" margin="0 auto" backgroundColor="red" justifyContent="space-between" gap="3em">
-                {
-                    products && products.map(p => (
-                        <Product key={p.id} product={p} />
-                    ))
-                }
-            </Box>
+            <>
+                <Box width="1000px" margin="0 auto" >
+                    <Swiper navigation={true} pagination={true} modules={[Navigation, Pagination]}>
+                        {
+                            SwiperImages.map(image => (
+                                <SwiperSlide>
+                                    <Image padding="4em" src={image} />
+                                </SwiperSlide>
+                            ))
+                        }
+                    </Swiper>
+                </Box>
+
+                <Box display="flex" flexWrap="wrap" width="80%" margin="0 auto" justifyContent="space-between" gap="3em">
+                    {
+                        products && products.map(p => (
+                            <Product key={p.id} product={p} />
+                        ))
+                    }
+                </Box>
+            </>
+
         </BaseLayout>
     )
 };
