@@ -11,7 +11,7 @@ const AppRouter = () => {
             </Route>
 
             <Route path="/" element={<Login />} />
-            
+
         </Routes>
     )
 };

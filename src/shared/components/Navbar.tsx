@@ -7,14 +7,31 @@ import { LuCircleUserRound, LuShoppingCart } from "react-icons/lu";
 // import logo from "../../../public/my-logo.png";
 //La carpeta public en React se trata commo raiz
 import logo from "/my-logo.png";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
-const NavLink = ({ icon, text, ref, onClick }) => {
+const NavLink = ({ icon, text, ref, onClick }: {
+    icon: ReactElement,
+    text: string,
+    onClick?: () => void,
+    ref?: React.Ref<HTMLAnchorElement>
+    // ref: RefObject<unknown>
+}) => {
     return (
         <Link ref={ref} onClick={onClick} display="flex" gap="10px" alignItems="center"> {icon} {text} </Link>
     )
 }
 
 const ProfileMenu = () => {
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("token")
+        navigate("/")
+
+        toast.success("Has cerrado sesión")
+    };
+
     return (
         <Menu>
             <MenuButton>
@@ -23,7 +40,7 @@ const ProfileMenu = () => {
             <MenuList color="#1a1a1a">
                 <MenuItem>Ver Perfil</MenuItem>
                 <MenuItem>Vaciar Carrito</MenuItem>
-                <MenuItem>Cerrar sesión</MenuItem>
+                <MenuItem onClick={logout}>Cerrar sesión</MenuItem>
             </MenuList>
         </Menu>
     )
@@ -31,7 +48,7 @@ const ProfileMenu = () => {
 
 const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const btnRef = useRef();
+    const btnRef = useRef<HTMLAnchorElement>(null);
 
     return (
         <>
@@ -78,9 +95,7 @@ const Navbar = () => {
                     </HStack>
                 </HStack>
             </HStack>
-
         </>
-
     )
 };
 

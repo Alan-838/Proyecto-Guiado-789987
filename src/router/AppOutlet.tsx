@@ -1,4 +1,4 @@
-import {Navigate, Outlet} from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 const AppOutlet = () => {
     const token = localStorage.getItem("token");
@@ -11,7 +11,11 @@ const AppOutlet = () => {
 
     // O con el ternario
     return (
-        token ? <Outlet /> : <Navigate to="/" />
+        <>
+            {
+                token ? <Outlet /> : <Navigate to="/" />
+            }
+        </>
     )
 };
 
