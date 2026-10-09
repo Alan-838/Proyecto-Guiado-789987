@@ -46,7 +46,7 @@ const Products = () => {
                     <Swiper navigation={true} pagination={true} modules={[Navigation, Pagination]}>
                         {
                             SwiperImages.map(image => (
-                                <SwiperSlide>
+                                <SwiperSlide key={image} >
                                     <Image padding="4em" src={image} />
                                 </SwiperSlide>
                             ))
