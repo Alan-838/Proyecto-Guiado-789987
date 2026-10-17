@@ -20,14 +20,15 @@ import sale2 from "@images/sales/sale2.jpg";
 import sale3 from "@images/sales/sale3.jpg";
 import sale4 from "@images/sales/sale4.jpg";
 
-import { tablesDB } from "../shared/lib/appwrite";
+import { tablesDB, storage } from "../shared/lib/appwrite";
 import { AppwritePrjct } from "../shared/lib/env";
 
 const SwiperImages = [sale1, sale2, sale3, sale4];
 
 const Products = () => {
     const [products, setProducts] = useState<Array<DummyProduct>>();
-    const [appwriteProducts, setAppwriteProducts] = useState<Array<object>>()
+    const [computerPhotoUrl, setComputerPhotoUrl] = useState<string>();
+    const [appwriteProducts, setAppwriteProducts] = useState<Array<object>>();
 
     const { get } = useFetch(DummyEndpoints.PRODUCTS);
 
@@ -48,9 +49,21 @@ const Products = () => {
         console.log(rows, "appwriteProducts")
     }
 
+    const getComputerPhoto = () => {
+        // getFile retorna un objeto con todos los datos del archivo
+        // getFileDownload retorna el url del archivo y ademas lo descarga
+        // getFilePreview retorna la url del archivo para visualizar, no lo descarga
+        // getFileView retorna la url del archivo para visualizar, no lo descarga 
+        const url = storage.getFileView({
+            bucketId: AppwritePrjct.buckets.pictures,
+            fileId: "6ad1b442003e6c856def"});
+        setComputerPhotoUrl(url.toString())
+    }
+
     useEffect(() => {
         getProducts()
         getProductsFromAppwrite()
+        getComputerPhoto()
     }, [])
 
 
@@ -81,6 +94,8 @@ const Products = () => {
                         ))
                     }
                 </Box>
+
+                <Image src={computerPhotoUrl} alt="Imagen de computadora de escritorio" />
 
                 <Box display="flex" flexWrap="wrap" width="80%" margin="0 auto" justifyContent="space-between" gap="3em">
                     {
