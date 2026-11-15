@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useFetch from "../shared/hooks/useFetch";
 import { DummyEndpoints, type DummyProduct, type DummyProducts } from "../shared/declarations/Dummyjson";
 import Product from "../shared/components/Product";
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, FormLabel, Heading, Image, Input, Text } from "@chakra-ui/react";
 import BaseLayout from "@layouts/BaseLayout";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -29,6 +29,7 @@ const Products = () => {
     const [products, setProducts] = useState<Array<DummyProduct>>();
     const [computerPhotoUrl, setComputerPhotoUrl] = useState<string>();
     const [appwriteProducts, setAppwriteProducts] = useState<Array<object>>();
+    const formulario = useRef(null)
 
     const { get } = useFetch(DummyEndpoints.PRODUCTS);
 
@@ -52,12 +53,26 @@ const Products = () => {
     const getComputerPhoto = () => {
         // getFile retorna un objeto con todos los datos del archivo
         // getFileDownload retorna el url del archivo y ademas lo descarga
-        // getFilePreview retorna la url del archivo para visualizar, no lo descarga
+        // getFilePreview retorna la url del archivo para visualizarlo, no lo descarga
         // getFileView retorna la url del archivo para visualizar, no lo descarga 
         const url = storage.getFileView({
             bucketId: AppwritePrjct.buckets.pictures,
-            fileId: "6ad1b442003e6c856def"});
+            fileId: "6ad1b442003e6c856def"
+        });
         setComputerPhotoUrl(url.toString())
+    }
+
+    const uploadPhoto = (e) => {
+        e.preventDefault()
+
+        if (formulario.current){
+            const form = new FormData(formulario.current)
+            const formObject = Object.fromEntries(form.entries())
+
+            console.log(formObject)
+        }
+
+        
     }
 
     useEffect(() => {
@@ -95,7 +110,16 @@ const Products = () => {
                     }
                 </Box>
 
-                <Image src={computerPhotoUrl} alt="Imagen de computadora de escritorio" />
+                <br />
+
+                <Box as="form" width="80%" margin="2em auto" ref={formulario} >
+                    <FormLabel htmlFor="image">Imagen</FormLabel>
+                    <Input width="260px" id="image" name="image" type="file" />
+
+                    <button onClick={ uploadPhoto }> Subir imagen </button>
+                </Box>
+
+                {/* <Image src={computerPhotoUrl} alt="Imagen de computadora de escritorio" width="500px" margin="0 auto" borderRadius="20px" />
 
                 <Box display="flex" flexWrap="wrap" width="80%" margin="0 auto" justifyContent="space-between" gap="3em">
                     {
@@ -103,7 +127,7 @@ const Products = () => {
                             <Product key={p.id} product={p} />
                         ))
                     }
-                </Box>
+                </Box> */}
             </>
 
         </BaseLayout>

@@ -1,4 +1,4 @@
-import { Client, Storage, TablesDB } from 'appwrite';
+import { Client, Storage, TablesDB, ID } from 'appwrite';
 import { AppwritePrjct } from './env';
 
 
@@ -10,5 +10,5 @@ const tablesDB = new TablesDB(client);
 const storage = new Storage(client);
 
 export {
-    tablesDB, storage
+    tablesDB, storage, ID
 }
