@@ -20,8 +20,9 @@ import sale2 from "@images/sales/sale2.jpg";
 import sale3 from "@images/sales/sale3.jpg";
 import sale4 from "@images/sales/sale4.jpg";
 
-import { tablesDB, storage } from "../shared/lib/appwrite";
+import { tablesDB, storage, ID } from "../shared/lib/appwrite";
 import { AppwritePrjct } from "../shared/lib/env";
+import { toast } from "sonner";
 
 const SwiperImages = [sale1, sale2, sale3, sale4];
 
@@ -70,8 +71,31 @@ const Products = () => {
             const formObject = Object.fromEntries(form.entries())
 
             console.log(formObject)
-        }
 
+            const product = {
+                name: formObject.name,
+                description: formObject.description,
+                price: Number(formObject.price),
+                active: formObject.active ? true : false
+            }
+
+            tablesDB.createRow({
+                databaseId: AppwritePrjct.databaseId,
+                tableId: AppwritePrjct.tablesDBPrjct.products,
+                rowId: ID.unique(),
+                data: product
+            })
+
+            // storage.createFile({
+            // bucketId: AppwritePrjct.buckets.pictures,
+            // fileId: ID.unique(),
+            // file: image
+            // }).then(() => {
+            //     toast.success("Archivo Subido")
+            // }).catch(() => {
+            //     toast.error("El archivo no se llego a subir")
+            // })
+        }
         
     }
 
@@ -113,8 +137,30 @@ const Products = () => {
                 <br />
 
                 <Box as="form" width="80%" margin="2em auto" ref={formulario} >
-                    <FormLabel htmlFor="image">Imagen</FormLabel>
-                    <Input width="260px" id="image" name="image" type="file" />
+                    <div>
+                        <FormLabel htmlFor="image">Imagen</FormLabel>
+                        <Input width="260px" id="image" name="image" type="file" />
+                    </div>
+
+                    <div>
+                        <FormLabel htmlFor="name">name</FormLabel>
+                        <Input width="260px" id="name" name="name" type="text" />
+                    </div>
+
+                    <div>
+                        <FormLabel htmlFor="price">price</FormLabel>
+                        <Input width="260px" id="price" name="price" type="number" />
+                    </div>
+
+                    <div>
+                        <FormLabel htmlFor="description">descripcion</FormLabel>
+                        <Input width="260px" id="description" name="description" type="text" />
+                    </div>
+
+                    <div>
+                        <label htmlFor="active">active</label>
+                        <input type="checkbox" id="active" name="active" />
+                    </div>
 
                     <button onClick={ uploadPhoto }> Subir imagen </button>
                 </Box>
