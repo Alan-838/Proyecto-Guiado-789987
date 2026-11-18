@@ -63,7 +63,7 @@ const Products = () => {
         setComputerPhotoUrl(url.toString())
     }
 
-    const uploadPhoto = (e) => {
+    const uploadPhoto = async (e) => {
         e.preventDefault()
 
         if (formulario.current){
@@ -72,8 +72,22 @@ const Products = () => {
 
             console.log(formObject)
 
+            //se sube la imagen
+            const imageId = ID.unique()
+            await storage.createFile({
+            bucketId: AppwritePrjct.buckets.pictures,
+            fileId: imageId,
+            file: formObject.image
+            })
+
+            //obtengo el url que va en el thumbnail
+            const url: string = storage.getFileView({
+                bucketId: AppwritePrjct.buckets.pictures,
+                fileId: imageId})
+
             const product = {
                 name: formObject.name,
+                thumbnail: url,
                 description: formObject.description,
                 price: Number(formObject.price),
                 active: formObject.active ? true : false
@@ -84,17 +98,11 @@ const Products = () => {
                 tableId: AppwritePrjct.tablesDBPrjct.products,
                 rowId: ID.unique(),
                 data: product
+            }).then(() => {
+                toast.success("Producto creado")
+            }).catch(() => {
+                toast.error("No se llego a subir el producto")
             })
-
-            // storage.createFile({
-            // bucketId: AppwritePrjct.buckets.pictures,
-            // fileId: ID.unique(),
-            // file: image
-            // }).then(() => {
-            //     toast.success("Archivo Subido")
-            // }).catch(() => {
-            //     toast.error("El archivo no se llego a subir")
-            // })
         }
         
     }
@@ -128,6 +136,7 @@ const Products = () => {
                     {
                         appwriteProducts?.map(product => (
                             <Box key={product.name} >
+                                <Image src={product.thumbnail} width="100px" />
                                 <Text> {product.name} </Text>
                             </Box>
                         ))
